@@ -8,19 +8,22 @@ import { JsonService } from './json-service';
 })
 export class AppComponent{
   title = 'newsfeed';
-  data1 = [];
   todos = [];
 
   constructor(private jsonService: JsonService){ }
 
   ngOnInit(){
-    this.jsonService.getData()
-    .subscribe(data => this.data1 = data);
-    localStorage.setItem('data',JSON.stringify(this.data1));
+    this.jsonService.getData().subscribe(data => this.storeData(data));
     this.getDataFromStorage();
   }
 
+  storeData(data){
+    let temp: string = JSON.stringify(data);
+    window.localStorage.setItem('data',temp);
+    console.log('temp : '+temp);
+  }
+
   getDataFromStorage(){
-    this.todos = JSON.parse(localStorage.getItem('data'));
+    this.todos = JSON.parse(window.localStorage.getItem('data'));
   }
 }
